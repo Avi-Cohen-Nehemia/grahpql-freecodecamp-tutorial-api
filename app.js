@@ -6,7 +6,8 @@ const app = express();
 
 // middleware to tell express to use graphql and what schema to use
 app.use("/graphql", graphqlHTTP({
-    schema: schema
+    schema: schema,
+    graphiql: true,
 }));
 
 app.listen(4000, () => {
