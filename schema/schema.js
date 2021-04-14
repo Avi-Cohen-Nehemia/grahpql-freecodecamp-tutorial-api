@@ -1,8 +1,26 @@
 // import graphql
 const graphql = require("graphql");
-
 // destructor graphql object and types
 const { GraphQLObjectType, GraphQLInt, GraphQLString, GraphQLSchema } = graphql;
+
+// dummy database
+const books = [
+    {
+        id: 1,
+        title: "Attack on Titan",
+        genre: "Fantasy"
+    },
+    {
+        id: 2,
+        title: "Kengan Ashura",
+        genre: "Action"
+    },
+    {
+        id: 3,
+        title: "7 Deadly Sins",
+        genre: "Fantasy"
+    },
+];
 
 // create a new model
 const BookType = new GraphQLObjectType({
@@ -13,7 +31,6 @@ const BookType = new GraphQLObjectType({
         id: {type: GraphQLInt},
         title: {type: GraphQLString},
         genre: {type: GraphQLString},
-        author: {type: GraphQLString},
     })
 });
 
