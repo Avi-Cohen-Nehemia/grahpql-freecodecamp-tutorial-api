@@ -8,17 +8,20 @@ const books = [
     {
         id: 1,
         title: "Attack on Titan",
-        genre: "Fantasy"
+        genre: "Fantasy",
+        author_id: 2
     },
     {
         id: 2,
         title: "Kengan Ashura",
-        genre: "Action"
+        genre: "Action",
+        author_id: 3
     },
     {
         id: 3,
         title: "7 Deadly Sins",
-        genre: "Fantasy"
+        genre: "Fantasy",
+        author_id: 1
     },
 ];
 
@@ -49,20 +52,24 @@ const BookType = new GraphQLObjectType({
         id: {type: GraphQLInt},
         title: {type: GraphQLString},
         genre: {type: GraphQLString},
+        author: {
+            type: AuthorType,
+            resolve(parent, args) {
+                return authors.find((author) => author.id === parent.author_id)
+            }
+        }
     })
 });
 
-// create a new model
 const AuthorType = new GraphQLObjectType({
-    // name the model
     name: "Author",
-    // give it columns
     fields: () => ({
         id: {type: GraphQLInt},
         name: {type: GraphQLString},
         age: {type: GraphQLInt},
     })
 });
+
 
 // this is where we define our different queries and what data they fetch
 const RootQuery = new GraphQLObjectType({
