@@ -22,6 +22,24 @@ const books = [
     },
 ];
 
+const authors = [
+    {
+        id: 1,
+        name: "Avi",
+        age: 30
+    },
+    {
+        id: 2,
+        name: "Zoe",
+        age: 31
+    },
+    {
+        id: 3,
+        name: "Blueberry",
+        age: 1
+    },
+];
+
 // create a new model
 const BookType = new GraphQLObjectType({
     // name the model
@@ -31,6 +49,18 @@ const BookType = new GraphQLObjectType({
         id: {type: GraphQLInt},
         title: {type: GraphQLString},
         genre: {type: GraphQLString},
+    })
+});
+
+// create a new model
+const AuthorType = new GraphQLObjectType({
+    // name the model
+    name: "Author",
+    // give it columns
+    fields: () => ({
+        id: {type: GraphQLInt},
+        name: {type: GraphQLString},
+        age: {type: GraphQLInt},
     })
 });
 
@@ -50,7 +80,16 @@ const RootQuery = new GraphQLObjectType({
                 // code to get data from db / other source
                 return books.find((book) => book.id === args.id);
             }
-        }
+        },
+        author: {
+            type: AuthorType,
+            args: {
+                id: {type: GraphQLInt}
+            },
+            resolve(parent, args) {
+                return authors.find((author) => author.id === args.id);
+            }
+        },
     }
 });
 
