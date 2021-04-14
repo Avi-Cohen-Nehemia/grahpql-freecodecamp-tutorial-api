@@ -1,7 +1,7 @@
 // import graphql
 const graphql = require("graphql");
 // destructor graphql object and types
-const { GraphQLObjectType, GraphQLInt, GraphQLString, GraphQLSchema } = graphql;
+const { GraphQLObjectType, GraphQLString, GraphQLSchema, GraphQLID } = graphql;
 
 // dummy database
 const books = [
@@ -28,7 +28,7 @@ const BookType = new GraphQLObjectType({
     name: "Book",
     // give it columns
     fields: () => ({
-        id: {type: GraphQLInt},
+        id: {type: GraphQLID},
         title: {type: GraphQLString},
         genre: {type: GraphQLString},
     })
@@ -44,7 +44,7 @@ const RootQuery = new GraphQLObjectType({
             // define what info is needed to execute the query
             // for example, we need to provide an id so graphql know which book to fetch
             args: {
-                id: {type: GraphQLInt}
+                id: {type: GraphQLID}
             },
             resolve(parent, args) {
                 // code to get data from db / other source
