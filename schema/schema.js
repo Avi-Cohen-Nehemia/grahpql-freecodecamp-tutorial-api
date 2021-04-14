@@ -2,7 +2,7 @@
 const graphql = require("graphql");
 
 // destructor graphql object and types
-const { GraphQLObjectType, GraphQLInt, GraphQLString } = graphql;
+const { GraphQLObjectType, GraphQLInt, GraphQLString, GraphQLSchema } = graphql;
 
 // create a new model
 const BookType = new GraphQLObjectType({
@@ -34,4 +34,9 @@ const RootQuery = new GraphQLObjectType({
             }
         }
     }
+});
+
+// export the schema and the root query
+module.exports = new GraphQLSchema({
+    query: RootQuery
 });
