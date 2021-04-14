@@ -16,3 +16,22 @@ const BookType = new GraphQLObjectType({
         author: {type: GraphQLString},
     })
 });
+
+// this is where we define our different queries and what data they fetch
+const RootQuery = new GraphQLObjectType({
+    name: "RootQueryType",
+    fields: {
+        book: {
+            // define what type of data will return
+            type: BookType,
+            // define what info is needed to execute the query
+            // for example, we need to provide an id so graphql know which book to fetch
+            args: {
+                id: {type: GraphQLInt}
+            },
+            resolve(parent, args) {
+                // code to get data from db / other source
+            }
+        }
+    }
+});
