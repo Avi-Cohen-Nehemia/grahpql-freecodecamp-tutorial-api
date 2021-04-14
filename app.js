@@ -4,7 +4,7 @@ const schema = require("./schema/schema");
 
 const app = express();
 
-// middleware to tell express to use graphql
+// middleware to tell express to use graphql and what schema to use
 app.use("/graphql", graphqlHTTP({
     schema: schema
 }));
