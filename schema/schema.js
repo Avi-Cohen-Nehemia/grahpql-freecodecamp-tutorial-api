@@ -1,46 +1,28 @@
 // import graphql
 const graphql = require("graphql");
 // destructor graphql object and types
-const { GraphQLObjectType, GraphQLInt, GraphQLString, GraphQLSchema } = graphql;
+const {
+    GraphQLObjectType,
+    GraphQLInt,
+    GraphQLString,
+    GraphQLSchema,
+    GraphQLList
+} = graphql;
 
 // dummy database
 const books = [
-    {
-        id: 1,
-        title: "Attack on Titan",
-        genre: "Fantasy",
-        author_id: 2
-    },
-    {
-        id: 2,
-        title: "Kengan Ashura",
-        genre: "Action",
-        author_id: 3
-    },
-    {
-        id: 3,
-        title: "7 Deadly Sins",
-        genre: "Fantasy",
-        author_id: 1
-    },
+    {id: 1, title: "Attack on Titan", genre: "Fantasy", author_id: 2},
+    {id: 2, title: "Kengan Ashura", genre: "Action", author_id: 3},
+    {id: 3, title: "7 Deadly Sins", genre: "Fantasy", author_id: 1},
+    {id: 4, title: "Dororo", genre: "Fantasy", author_id: 3},
+    {id: 5, title: "Naruto", genre: "Shonen", author_id: 3},
+    {id: 6, title: "Corpse Party", genre: "Horror", author_id: 1},
 ];
 
 const authors = [
-    {
-        id: 1,
-        name: "Avi",
-        age: 30
-    },
-    {
-        id: 2,
-        name: "Zoe",
-        age: 31
-    },
-    {
-        id: 3,
-        name: "Blueberry",
-        age: 1
-    },
+    {id: 1,name: "Avi", age: 30},
+    {id: 2,name: "Zoe", age: 31},
+    {id: 3,name: "Blueberry", age: 1},
 ];
 
 // create a new model
@@ -52,10 +34,11 @@ const BookType = new GraphQLObjectType({
         id: {type: GraphQLInt},
         title: {type: GraphQLString},
         genre: {type: GraphQLString},
+        // set a relationship between a book and its author
         author: {
             type: AuthorType,
             resolve(parent, args) {
-                return authors.find((author) => author.id === parent.author_id)
+                return authors.find((author) => author.id === parent.author_id);
             }
         }
     })
@@ -67,6 +50,13 @@ const AuthorType = new GraphQLObjectType({
         id: {type: GraphQLInt},
         name: {type: GraphQLString},
         age: {type: GraphQLInt},
+        // set a relationship between an author and all their books
+        books: {
+            type: new GraphQLList(BookType),
+            resolve(parent, args) {
+                return books.filter((book) => parent.id === book.author_id);
+            }
+        }
     })
 });
 
