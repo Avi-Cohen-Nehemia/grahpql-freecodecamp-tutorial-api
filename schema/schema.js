@@ -7,7 +7,8 @@ const {
     GraphQLString,
     GraphQLSchema,
     GraphQLList,
-    GraphQLID
+    GraphQLID,
+    GraphQLNonNull
 } = graphql;
 //import mongoose models
 const Book = require("../models/book");
@@ -59,8 +60,9 @@ const Mutation = new GraphQLObjectType({
             type: AuthorType,
             // what data is needed in order to create a new author
             args: {
-                name: {type: GraphQLString},
-                age: {type: GraphQLInt}
+                // GraphQLNonNull makes args required and will prevent saving incomplete data
+                name: {type: new GraphQLNonNull(GraphQLString)},
+                age: {type: new GraphQLNonNull(GraphQLInt)}
             },
             // create a new Author (mongoose model) with the values entered in args 
             resolve(parent, args) {
@@ -76,9 +78,9 @@ const Mutation = new GraphQLObjectType({
         addBook: {
             type: BookType,
             args: {
-                title: {type: GraphQLString},
-                genre: {type: GraphQLString},
-                author_id: {type: GraphQLID}
+                title: {type: new GraphQLNonNull(GraphQLString)},
+                genre: {type: new GraphQLNonNull(GraphQLString)},
+                author_id: {type: new GraphQLNonNull(GraphQLID)}
             },
             resolve(parent, args) {
                 let book = new Book({
