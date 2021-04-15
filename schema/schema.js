@@ -47,6 +47,29 @@ const AuthorType = new GraphQLObjectType({
     })
 });
 
+// this is where we define how graphql will make changes to the database
+const Mutation = new GraphQLObjectType({
+    name: "Mutation",
+    fields: {
+        // query for creating a new author
+        addAuthor: {
+            // what data type is being created
+            type: AuthorType,
+            // what data is needed in order to create a new author
+            args: {
+                name: {type: GraphQLString},
+                age: {type: GraphQLInt}
+            },
+            // create a new Author (mongoose model) with the values entered in args 
+            resolve(parent, args) {
+                let author = new Author({
+                    name: args.name,
+                    age: args.age
+                });
+            }
+        }
+    }
+});
 
 // this is where we define our different queries and what data they fetch
 const RootQuery = new GraphQLObjectType({
