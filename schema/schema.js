@@ -25,7 +25,7 @@ const authors = [
     {id: 3,name: "Blueberry", age: 1},
 ];
 
-// create a new model
+// create a new model by using graphql's ObjectType
 const BookType = new GraphQLObjectType({
     // name the model
     name: "Book",
