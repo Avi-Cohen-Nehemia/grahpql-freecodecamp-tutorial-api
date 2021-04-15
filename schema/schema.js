@@ -116,5 +116,6 @@ const RootQuery = new GraphQLObjectType({
 
 // export the schema and the root query
 module.exports = new GraphQLSchema({
-    query: RootQuery
+    query: RootQuery,
+    mutation: Mutation
 });
