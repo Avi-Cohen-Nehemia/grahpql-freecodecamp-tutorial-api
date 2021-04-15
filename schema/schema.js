@@ -6,7 +6,8 @@ const {
     GraphQLInt,
     GraphQLString,
     GraphQLSchema,
-    GraphQLList
+    GraphQLList,
+    GraphQLID
 } = graphql;
 //import mongoose models
 const Book = require("../models/book");
@@ -18,7 +19,7 @@ const BookType = new GraphQLObjectType({
     name: "Book",
     // give it columns
     fields: () => ({
-        id: {type: GraphQLInt},
+        id: {type: GraphQLID},
         title: {type: GraphQLString},
         genre: {type: GraphQLString},
         // set a relationship between a book and its author
@@ -34,7 +35,7 @@ const BookType = new GraphQLObjectType({
 const AuthorType = new GraphQLObjectType({
     name: "Author",
     fields: () => ({
-        id: {type: GraphQLInt},
+        id: {type: GraphQLID},
         name: {type: GraphQLString},
         age: {type: GraphQLInt},
         // set a relationship between an author and all their books
@@ -66,8 +67,8 @@ const Mutation = new GraphQLObjectType({
                     name: args.name,
                     age: args.age
                 });
-                // save the author to the database
-                author.save();
+                // save the author to the database and return its data
+                return author.save();
             }
         }
     }
@@ -83,7 +84,7 @@ const RootQuery = new GraphQLObjectType({
             // define what info is needed to execute the query
             // for example, we need to provide an id so graphql know which book to fetch
             args: {
-                id: {type: GraphQLInt}
+                id: {type: GraphQLID}
             },
             resolve(parent, args) {
                 // code to get data from db / other source
@@ -99,7 +100,7 @@ const RootQuery = new GraphQLObjectType({
         author: {
             type: AuthorType,
             args: {
-                id: {type: GraphQLInt}
+                id: {type: GraphQLID}
             },
             resolve(parent, args) {
                 // return authors.find((author) => author.id === args.id);
